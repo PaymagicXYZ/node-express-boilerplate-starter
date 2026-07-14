@@ -14,7 +14,17 @@ const validate = (schema) => (req, res, next) => {
     const errorMessage = error.details.map((details) => details.message).join(', ');
     return next(new ApiError(httpStatus.BAD_REQUEST, errorMessage));
   }
-  Object.assign(req, value);
+  if (value.body) {
+    req.body = value.body;
+  }
+  // req.query (and req.params) are read-only getters on Express >= 4.20, so
+  // replace their contents in place instead of reassigning the whole object.
+  ['query', 'params'].forEach((key) => {
+    if (value[key] && req[key]) {
+      Object.keys(req[key]).forEach((k) => delete req[key][k]);
+      Object.assign(req[key], value[key]);
+    }
+  });
   return next();
 };
 

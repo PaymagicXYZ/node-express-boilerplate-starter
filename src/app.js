@@ -1,6 +1,6 @@
 const express = require('express');
 const helmet = require('helmet');
-const xss = require('xss-clean');
+const { xss } = require('express-xss-sanitizer');
 const mongoSanitize = require('express-mongo-sanitize');
 const compression = require('compression');
 const cors = require('cors');
@@ -30,9 +30,20 @@ app.use(express.json());
 // parse urlencoded request body
 app.use(express.urlencoded({ extended: true }));
 
-// sanitize request data
+// sanitize request data against xss
 app.use(xss());
-app.use(mongoSanitize());
+
+// sanitize request data against query injection. mongoSanitize() reassigns
+// req.query, which Express >= 4.20 exposes as a read-only getter, so sanitize
+// each source in place instead.
+app.use((req, res, next) => {
+  ['body', 'params', 'query'].forEach((key) => {
+    if (req[key]) {
+      mongoSanitize.sanitize(req[key], {});
+    }
+  });
+  next();
+});
 
 // gzip compression
 app.use(compression());
