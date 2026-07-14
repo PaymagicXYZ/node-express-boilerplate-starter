@@ -60,14 +60,14 @@
     "helmet": "^4.1.0",
     "http-status": "^1.4.0",
     "joi": "^17.3.0",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.3",
     "moment": "^2.24.0",
-    "mongoose": "^5.7.7",
+    "mongoose": "^8.24.1",
     "morgan": "^1.9.1",
     "nodemailer": "^6.3.1",
-    "passport": "^0.4.0",
+    "passport": "^0.7.0",
     "passport-jwt": "^4.0.0",
-    "pm2": "^5.1.0",
+    "pm2": "^7.0.3",
     "swagger-jsdoc": "^6.0.8",
     "swagger-ui-express": "^4.1.6",
     "validator": "^13.0.0",
@@ -85,11 +85,12 @@
     "eslint-plugin-security": "^1.4.0",
     "faker": "^5.1.0",
     "husky": "7.0.4",
-    "jest": "^26.0.1",
+    "jest": "^30.0.0",
     "lint-staged": "^11.0.0",
     "node-mocks-http": "^1.8.0",
     "nodemon": "^2.0.0",
     "prettier": "^2.0.5",
     "supertest": "^6.0.1"
-  }
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }
