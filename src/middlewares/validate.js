@@ -14,7 +14,14 @@ const validate = (schema) => (req, res, next) => {
     const errorMessage = error.details.map((details) => details.message).join(', ');
     return next(new ApiError(httpStatus.BAD_REQUEST, errorMessage));
   }
-  Object.assign(req, value);
+  Object.keys(value).forEach((key) => {
+    Object.defineProperty(req, key, {
+      value: value[key],
+      writable: true,
+      enumerable: true,
+      configurable: true,
+    });
+  });
   return next();
 };
 
