@@ -14,7 +14,16 @@ const validate = (schema) => (req, res, next) => {
     const errorMessage = error.details.map((details) => details.message).join(', ');
     return next(new ApiError(httpStatus.BAD_REQUEST, errorMessage));
   }
-  Object.assign(req, value);
+  Object.keys(value).forEach((key) => {
+    // req.query can be a read-only property (e.g. frozen by a request sanitizer),
+    // so mutate it in place instead of reassigning the reference.
+    if (key === 'query') {
+      Object.keys(req.query).forEach((queryKey) => delete req.query[queryKey]);
+      Object.assign(req.query, value.query);
+    } else {
+      req[key] = value[key];
+    }
+  });
   return next();
 };
 
